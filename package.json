@@ -1,0 +1,11 @@
+{
+  "name": "yp-jd-payment",
+  "version": "1.0.0",
+  "description": "YoPoint JDPay",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "DC",
+  "license": "ISC"
+}
