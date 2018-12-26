@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="expires" content="0" />
+  <meta http-equiv="pragma" content="no-cache" />
+  <meta http-equiv="cache-control" content="no-cache" />
+  <title>"京东支付"PC版demo</title>
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+</head>
+
+<body>
+  <script type="text/javascript">
+    const form = {
+      url: 'http://h5pay.jd.com/jdpay/customerPay',
+      formData:
+      {
+        version: 'V2.0',
+        merchant: '111204753004',
+        orderType: 'a97bde7f863003ab',
+        currency: 'dbb3899818983483',
+        tradeType: '5553c93624912313',
+        tradeTime: '0d66953213c05db9f4594b6919fc3242a515b3c3cdff8147',
+        tradeNum: 'a4b64124bd30f16c36881a1fec04c67eddbd3a4ef0cc1c93',
+        tradeName: 'a4b64124bd30f16c36881a1fec04c67ee895f2018108ea4e',
+        amount: 'a97bde7f863003ab',
+        callbackUrl: '592faeec9f225b677f51fdc4c88245380e339bb23fc6bb471db635ef4d66729c8ae2e8bc05cf816e',
+        notifyUrl: '5cf8a29f5889890b7f51fdc4c88245380e339bb23fc6bb471db635ef4d66729c39fba830bebb8bfff5193d937bdcf4059931e4afee464b73',
+        sign: 'OwSUrXlHfiPHFHgmynVlhJ9hCKOVf1LYd15Ljb7cexOhJbxfbOw8PTGosACotjAiuxn1JOqqlyU2fZF99eh29LNa2HsH728gwjP67T6C3Abbi6LSvUpNOptmfIGFL6QDbemVqNo1yXWWZFwt674RyB7PjW/r+0qd0+c0PEzloVFKJWgEp2gGSPXAysPvbmgAU1SRie/tZrPEx/GzxT2NnsOxkS6r9s2wRVhW/RwQHW+SkPK92f3PJjkTEdqGVMOMxl8rZUaes/foIW20eIIoC1ijV/hzURMZaoPGRsa3Y8KHTkr9ZNSBlLyQV7jnFbHSBjOtyLQNaz5NzRj+yyS9zg=='
+      }
+    };
+
+    var html = '';
+    $.each(form.formData, function (k, v) {
+      // console.log(k, v);
+      html += '<input type="hidden" name="' + k + '" value="' + v + '" />'
+    });
+
+
+    $(document).ready(function () {
+      console.log('ready...');
+      $('<form>', {
+        "html": html,
+        "action": form.url,
+        "method": "post",
+      }).appendTo(document.body).submit();
+    })
+  </script>
+</body>
+
+</html>

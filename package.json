@@ -3,9 +3,34 @@
   "version": "1.0.0",
   "description": "YoPoint JDPay",
   "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dcboy/yp-jd-payment.git"
   },
+  "keywords": [
+    "jd",
+    "payment"
+  ],
+  "bugs": {
+    "url": "https://github.com/dcboy/yp-jd-payment/issues"
+  },
+  "homepage": "https://github.com/dcboy/yp-jd-payment#readme",
   "author": "DC",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "lodash": "^4.17.11",
+    "moment": "^2.23.0",
+    "request": "^2.88.0",
+    "xml2js": "^0.4.19"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-eslint": "8.2.6",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "babel-preset-env": "^1.6.1",
+    "eslint": "^4.19.1",
+    "eslint-config-airbnb-base": "^12.1.0",
+    "eslint-plugin-import": "2.13.0"
+  }
 }
