@@ -1,6 +1,6 @@
 {
   "name": "yp-jd-payment",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "YoPoint JDPay",
   "main": "index.js",
   "scripts": {
