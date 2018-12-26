@@ -1,5 +1,3 @@
-'use strict';
-
 const crypto = require('crypto');
 const parseString = require('xml2js').parseString;
 const request = require('request');
@@ -22,7 +20,7 @@ const toBuffer = (text, encode = 'utf-8') => {
   return Buffer.from(str, encode);
 };
 
-const _padText = text => {
+const _padText = (text) => {
   const buf = toBuffer(text);
   const len = buf.length;
   const mod = (len + 4) % 8;
@@ -37,7 +35,7 @@ const _padText = text => {
   return nfb;
 };
 
-const _rText = buf => {
+const _rText = (buf) => {
   const datasize = buf.readInt32BE(0);
   if (datasize > buf.length - 4) {
     throw new Error('data_length_error');
@@ -45,10 +43,10 @@ const _rText = buf => {
   const nc = Buffer.alloc(datasize);
   buf.copy(nc, 0, 4, datasize + 4);
   return nc.toString();
-};
+}
 
 const utils = {
-  async validResponse(response, desKey, publicKey) {
+  async validResponse (response, desKey, publicKey) {
     response = await this.parseXml(response);
 
     if (response.result.code === '000000') {
@@ -125,19 +123,19 @@ const utils = {
       throw new Error(JSON.stringify(response.result));
     }
   },
-  rsaEncrypt(data, key) {
+  rsaEncrypt (data, key) {
     return crypto.privateEncrypt({
       key,
-      padding: crypto.constants.RSA_PKCS1_PADDING
+      padding: crypto.constants.RSA_PKCS1_PADDING,
     }, data);
   },
-  rsaDecrypt(data, key) {
+  rsaDecrypt (data, key) {
     return crypto.publicDecrypt({
       key,
-      padding: crypto.constants.RSA_PKCS1_PADDING
+      padding: crypto.constants.RSA_PKCS1_PADDING,
     }, data);
   },
-  buildXml(data, headless) {
+  buildXml (data, headless) {
     const builder = new Builder({
       rootName: 'jdpay',
       xmldec: {
@@ -148,19 +146,19 @@ const utils = {
         newline: '',
         spacebeforeslash: ' '
       },
-      headless
+      headless,
     });
     return builder.buildObject(data);
   },
-  normalize(data) {
+  normalize (data) {
     return Object.keys(data).sort().map(k => `${k}=${data[k]}`).join('&');
   },
-  hash(str, al = 'md5') {
+  hash (str, al = 'md5') {
     const hash = crypto.createHash(al);
     hash.update(str, 'utf8');
     return hash.digest('hex');
   },
-  parseXml(data) {
+  parseXml (data) {
     return new Promise((resolve, reject) => {
       parseString(data, { trim: true, explicitArray: false, explicitRoot: false }, (err, rs) => {
         if (err) {
@@ -170,21 +168,21 @@ const utils = {
         resolve(rs);
         return;
       });
-    });
+    })
   },
-  encryptDES3(key, plaintext) {
+  encryptDES3 (key, plaintext) {
     const buf = _padText(plaintext);
     const cipher = crypto.createCipheriv(algorithm, key, new Buffer(0));
     cipher.setAutoPadding(autopad);
     return flush(cipher, buf);
   },
-  dencryptDES3(key, data) {
+  dencryptDES3 (key, data) {
     const decipher = crypto.createDecipheriv(algorithm, key, new Buffer(0));
     decipher.setAutoPadding(autopad);
     const buf = flush(decipher, data);
     return _rText(buf);
   },
-  request(options) {
+  request (options) {
     return new Promise((resolve, reject) => {
       request.post(options, (err, resp, body) => {
         if (err) {
@@ -199,8 +197,8 @@ const utils = {
         }
         resolve(body);
       });
-    });
+    })
   }
-};
+}
 
 module.exports = utils;

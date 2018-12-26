@@ -1,54 +1,44 @@
-'use strict';
 
-var _moment = require('moment');
-
-var _moment2 = _interopRequireDefault(_moment);
-
-var _lodash = require('lodash');
-
-var _lodash2 = _interopRequireDefault(_lodash);
-
-var _util = require('./util');
-
-var _util2 = _interopRequireDefault(_util);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+import moment from 'moment';
+import _ from 'lodash';
+import util from './util';
 
 const APIURL = {
   uniorder: 'https://paygate.jd.com/service/uniorder',
   query: 'https://paygate.jd.com/service/query',
   refund: 'https://paygate.jd.com/service/refund',
-  customerPay: 'http://h5pay.jd.com/jdpay/customerPay'
-  /** 
-   * 京东支付类
-  */
-};class JDpay {
+  customerPay: 'http://h5pay.jd.com/jdpay/customerPay',
+}
+/** 
+ * 京东支付类
+*/
+class JDpay {
   constructor(config) {
     this.config = config;
     this.baseOptions = {
       version: 'V2.0',
-      merchant: this.config.merchant
-    };
+      merchant: this.config.merchant,
+    }
   }
 
   /** 
    * Xml提交请求
   */
-  async xmlRequest(url, params) {
+  async xmlRequest (url, params) {
     const { desKey, privateKey, publicKey } = this.config;
 
-    params = Object.assign({}, this.baseOptions, params);
+    params = Object.assign({}, this.baseOptions, params)
 
     //将提交参数按照拼接规则，生成S1如下
-    const xmlStr = _util2.default.buildXml(params);
-    const sign = _util2.default.hash(xmlStr, 'sha256');
-    params.sign = _util2.default.rsaEncrypt(Buffer.from(sign), privateKey).toString('base64');
+    const xmlStr = util.buildXml(params);
+    const sign = util.hash(xmlStr, 'sha256');
+    params.sign = util.rsaEncrypt(Buffer.from(sign), privateKey).toString('base64');
 
     // 待签名的xml字符串
-    const signedXmlStr = _util2.default.buildXml(params);
+    const signedXmlStr = util.buildXml(params);
 
     // 加密字符串
-    const hex = _util2.default.encryptDES3(desKey, signedXmlStr).toString('hex');
+    const hex = util.encryptDES3(desKey, signedXmlStr).toString('hex');
 
     // 加密字符串转BASE64
     const encrypt = Buffer.from(hex, 'utf-8').toString('base64');
@@ -56,16 +46,16 @@ const APIURL = {
     // 提交的postData
     const postData = Object.assign({}, this.baseOptions, { encrypt });
 
-    const body = _util2.default.buildXml(postData);
+    const body = util.buildXml(postData)
     // 请求API
-    let response = await _util2.default.request({
+    let response = await util.request({
       url,
       headers: {
-        'content-type': 'application/xml'
+        'content-type': 'application/xml',
       },
-      body
+      body,
     });
-    response = await _util2.default.validResponse(response, desKey, publicKey);
+    response = await util.validResponse(response, desKey, publicKey);
 
     // 转换json object
     console.log(`response:${response}\r\n==`);
@@ -76,24 +66,24 @@ const APIURL = {
   /** 
    * 表单方式提交
   */
-  async getFormRequest(params) {
+  async getFormRequest (params) {
     const { desKey, privateKey } = this.config;
 
-    params = Object.assign({}, this.baseOptions, params);
+    params = Object.assign({}, this.baseOptions, params)
 
     //将提交参数按照拼接规则，生成S1如下
-    const signStr = _util2.default.normalize(params);
+    const signStr = util.normalize(params);
     // 签名
-    const sign = _util2.default.hash(signStr, 'sha256');
+    const sign = util.hash(signStr, 'sha256');
     // 加密签名
-    params.sign = _util2.default.rsaEncrypt(Buffer.from(sign), privateKey).toString('base64');
+    params.sign = util.rsaEncrypt(Buffer.from(sign), privateKey).toString('base64');
 
     // 除sign以外所有字段值都加密
-    _lodash2.default.each(params, (v, k) => {
+    _.each(params, (v, k) => {
       if (k === 'sign' || k === 'merchant' || k === 'version') {
         return;
       }
-      const hex = _util2.default.encryptDES3(desKey, v).toString('hex');
+      const hex = util.encryptDES3(desKey, v).toString('hex');
       params[k] = Buffer.from(hex, 'utf-8').toString();
     });
 
@@ -103,12 +93,12 @@ const APIURL = {
   /** 
    * 统一下单接口
   */
-  async uniorder(params) {
+  async uniorder (params) {
     // 当前接口默认参数
     const base = {
       currency: 'CNY',
       orderType: '0',
-      tradeTime: (0, _moment2.default)().format('YYYYMMDDHHmmss')
+      tradeTime: moment().format('YYYYMMDDHHmmss')
     };
 
     params = Object.assign({}, base, params);
@@ -170,7 +160,7 @@ const APIURL = {
    *   "sign": "Ku3ZO2iqNFwGJTQP4ozYWN/N+Iv0hRY+p4RRimE6FWU0st65Ta2lymvoIJbLErOUF3Qo0oVrtxBOqDd6IoXzivtMrYrVgxX28lFTjxWUgt0h9XFoy3oMChRb+QH4Y7QT16wWlvQTwTxVh3BUYxjXWxwKwkEwtTGfXwsz6MRyiXw="
    * }
    */
-  async query(params) {
+  async query (params) {
     params = Object.assign({}, params);
 
     if (!params.tradeNum) {
@@ -206,10 +196,10 @@ const APIURL = {
    * }
    * @memberof JDpay
    */
-  async refund(params) {
+  async refund (params) {
     const base = {
       currency: 'CNY',
-      orderType: '0'
+      orderType: '0',
     };
 
     params = Object.assign({}, params);
@@ -237,13 +227,13 @@ const APIURL = {
    * @returns
    * @memberof JDpay
    */
-  async customerPay(params) {
+  async customerPay (params) {
     // 当前接口默认参数
     const base = {
       orderType: 1,
       currency: 'CNY',
       tradeType: 'DRCT',
-      tradeTime: (0, _moment2.default)().format('YYYYMMDDHHmmss')
+      tradeTime: moment().format('YYYYMMDDHHmmss')
     };
 
     params = Object.assign({}, base, params);
@@ -253,10 +243,11 @@ const APIURL = {
     const ret = {
       url: APIURL.customerPay,
       formData: params
-    };
+    }
 
     return ret;
   }
+
 
 }
 
