@@ -3,9 +3,19 @@
   "version": "1.0.0",
   "description": "YoPoint JDPay",
   "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dcboy/yp-jd-payment.git"
   },
+  "keywords": [
+    "jd",
+    "payment"
+  ],
+  "bugs": {
+    "url": "https://github.com/dcboy/yp-jd-payment/issues"
+  },
+  "homepage": "https://github.com/dcboy/yp-jd-payment#readme",
   "author": "DC",
   "license": "ISC",
   "dependencies": {

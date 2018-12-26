@@ -15,14 +15,16 @@ const jpay = new JDpay(config);
     // callbackUrl: 'http://5f3a2d8.ngrok.yopoint.cc:81/',
     // notifyUrl: 'http://5f3a2d8.ngrok.yopoint.cc:81/jd/gateway/notify',
     oTradeNum: '1545811092905',
-    tradeNum: moment().valueOf(),
+    // tradeNum: moment().valueOf(),
+    tradeNum: '1545811092905',
+    tradeType: 1,
     amount: 1,
   };
 
   try {
     // const response = await jpay.uniorder(params);
     // const response = await jpay.customerPay(params);
-    const response = await jpay.query(params);
+    // const response = await jpay.query(params);
     // const response = await jpay.refund(params);
     console.log(response);
   } catch (e) {
