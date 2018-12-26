@@ -1,5 +1,5 @@
 const moment = require('moment');
-const JDpay = require('../lib/jd-pay');
+const JDpay = require('../');
 const config = require('../config');
 
 const jpay = new JDpay(config);
@@ -23,7 +23,7 @@ const jpay = new JDpay(config);
 
   try {
     // const response = await jpay.uniorder(params);
-    // const response = await jpay.customerPay(params);
+    const response = await jpay.customerPay(params);
     // const response = await jpay.query(params);
     // const response = await jpay.refund(params);
     console.log(response);

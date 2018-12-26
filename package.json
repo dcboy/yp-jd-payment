@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "description": "YoPoint JDPay",
   "main": "index.js",
-  "scripts": {},
+  "scripts": {
+    "build": "./node_modules/.bin/babel --out-dir=lib src"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/dcboy/yp-jd-payment.git"
