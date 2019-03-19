@@ -6,6 +6,9 @@
   "scripts": {
     "build": "./node_modules/.bin/babel --out-dir=lib src"
   },
+  "pre-commit": [
+    "build"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/dcboy/yp-jd-payment.git"
@@ -33,6 +36,7 @@
     "babel-preset-env": "^1.6.1",
     "eslint": "^4.19.1",
     "eslint-config-airbnb-base": "^12.1.0",
-    "eslint-plugin-import": "2.13.0"
+    "eslint-plugin-import": "2.13.0",
+    "pre-commit": "^1.2.2"
   }
 }
